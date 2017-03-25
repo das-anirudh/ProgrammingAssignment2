@@ -2,22 +2,22 @@
 ## It is stored in the cache and is accessed everytime it is needed, instead of computing it again.
 ## The first function is used to create the matrix. And the second computes its inverse.
 
-## 4 functions, to assign and get the matrix, and its inverse.
+## This function has four 4 nested functions, to assign and get the matrix, and its inverse.
 
-makeCacheMatrix <- function(x = matrix()) 
+makeCacheMatrix <- function(source_matrix = matrix()) 
 {
-  i <- NULL
+  matrix_inverse <- NULL
   set <- function(y)
   {
-    x <<- y
-    i <<- NULL
+    source_matrix <<- y
+    matrix_inverse <<- NULL
   }
-  get <- function() x
-  setinverse <- function(inverse) i <<- inverse
-  getinverse <- function() i
-  list(set = set, get = get,
-       setinverse = setinverse,
-       getinverse = getinverse)
+  get <- function() source_matrix
+  setinverse <- function(inverse) matrix_inverse <<- inverse
+  getinverse <- function() matrix_inverse
+  
+  ##List containing all the nested functions
+  return(list(set = set , get = get, setinverse = setinverse , getinverse = getinverse))
 }
 
 
@@ -25,14 +25,14 @@ makeCacheMatrix <- function(x = matrix())
 
 cacheSolve <- function(x, ...)
 {
-  i <- x$getinverse()
-  if(!is.null(i))
+  inverse <- x$getinverse()
+  if(!is.null(inverse))
   {
-    message("getting cached data")
-    return(i)
+    message("Obtaining inverse from Cache.")
+    return(inverse)
   }
   data <- x$get()
-  i <- solve(data, ...)
-  x$setinverse(i)
-  i      
+  inverse <- solve(data, ...)
+  x$setinverse(inverse)
+  return(inverse)      
 }
